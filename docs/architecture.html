@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>okDriver AI — System Architecture</title>
+  <style>
+    :root {
+      --bg: #f3f8ff;
+      --text: #102548;
+      --muted: #5473a3;
+      --accent: #2563eb;
+      --good: #16a34a;
+      --warn: #d97706;
+      --bad: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", Arial, sans-serif;
+      background: radial-gradient(circle at 5% 5%, rgba(125,183,255,0.38), transparent 37%),
+                  radial-gradient(circle at 95% 10%, rgba(116,204,255,0.35), transparent 35%),
+                  linear-gradient(180deg, #f8fbff 0%, var(--bg) 100%);
+      color: var(--text);
+      padding: 24px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h1 { text-align: center; margin: 0 0 6px; font-size: 1.6rem; }
+    .subtitle { text-align: center; color: var(--muted); margin-bottom: 24px; font-size: 0.95rem; }
+    .legend {
+      display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; margin-bottom: 24px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--muted); }
+    .dot { width: 12px; height: 12px; border-radius: 3px; }
+    .diagram { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; position: relative; }
+    .box {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(46,103,192,0.22);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 14px 32px rgba(37,99,235,0.12);
+    }
+    .box h2 { margin: 0 0 12px; font-size: 1.05rem; text-align: center; }
+    .component {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(46,103,192,0.15);
+      border-radius: 10px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+    .component strong { display: block; font-size: 0.9rem; color: var(--accent); margin-bottom: 4px; }
+    .component span { font-size: 0.82rem; color: var(--muted); }
+    .center { display: flex; flex-direction: column; justify-content: center; }
+    .arrow-label {
+      position: absolute; font-size: 0.78rem; font-weight: 600; padding: 2px 8px;
+      background: rgba(255,255,255,0.9); border-radius: 6px; border: 1px solid rgba(46,103,192,0.15);
+    }
+    .footer { text-align: center; margin-top: 24px; font-size: 0.85rem; color: #93c5fd; }
+    @media (max-width: 900px) {
+      .diagram { grid-template-columns: 1fr; }
+      .arrow-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>okDriver AI — System Architecture</h1>
+    <p class="subtitle">WebRTC Live Streaming with Real-time Driver Analytics</p>
+
+    <div class="legend">
+      <div class="legend-item"><div class="dot" style="background:#2563eb;opacity:.7"></div>Signaling (Socket.io)</div>
+      <div class="legend-item"><div class="dot" style="background:#16a34a;opacity:.7"></div>Media Stream (WebRTC)</div>
+      <div class="legend-item"><div class="dot" style="background:#dc2626;opacity:.7"></div>Metrics / DataChannel</div>
+      <div class="legend-item"><div class="dot" style="background:#d97706;opacity:.7"></div>Analytics / UI Updates</div>
+    </div>
+
+    <div class="diagram">
+      <!-- Broadcaster -->
+      <div class="box">
+        <h2>📱 Mobile Broadcaster</h2>
+        <div class="component">
+          <strong>Camera &amp; Mic</strong>
+          <span>getUserMedia() — facing mode: environment</span>
+        </div>
+        <div class="component">
+          <strong>RTCPeerConnection</strong>
+          <span>addTrack(), createOffer(), ICE gathering</span>
+        </div>
+        <div class="component">
+          <strong>Metrics DataChannel</strong>
+          <span>Ping every 500ms — Latency &amp; RTT tracking</span>
+        </div>
+        <div class="component">
+          <strong>Socket.io Client</strong>
+          <span>broadcaster-ready / offer / ice-candidate</span>
+        </div>
+      </div>
+
+      <!-- Server -->
+      <div class="box center">
+        <h2>🖥 Signaling Server</h2>
+        <div class="component">
+          <strong>Express.js</strong>
+          <span>Static files, HTML routes (/dashboard, /broadcast, /analytics-settings)</span>
+        </div>
+        <div class="component">
+          <strong>Socket.io Server</strong>
+          <span>Relay: offer / answer / ICE — Presence events</span>
+        </div>
+        <div class="component" style="margin-top:18px">
+          <strong>🌍 Google STUN</strong>
+          <span>stun.l.google.com:19302 — NAT traversal</span>
+        </div>
+      </div>
+
+      <!-- Viewer -->
+      <div class="box">
+        <h2>📊 Viewer Dashboard</h2>
+        <div class="component">
+          <strong>Socket.io Client</strong>
+          <span>viewer-ready / answer / ice-candidate</span>
+        </div>
+        <div class="component">
+          <strong>RTCPeerConnection</strong>
+          <span>setRemoteDesc(offer), ontrack → remoteVideo</span>
+        </div>
+        <div class="component">
+          <strong>Analytics Engine</strong>
+          <span>Latency stats (min/avg/max), Driver alerts &amp; thresholds</span>
+        </div>
+        <div class="component">
+          <strong>Dashboard UI</strong>
+          <span>Live video, stats overlay, Analytics Settings page</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Server does not store video. All media is peer-to-peer encrypted via WebRTC.<br/>
+      Open this file in any browser to view the architecture diagram.
+    </div>
+  </div>
+</body>
+</html>
+

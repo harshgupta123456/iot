@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analytics Settings - Live Feed</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="app-shell">
+    <div class="settings-shell">
+      <header class="settings-topbar glass">
+        <h1>okDriver AI — Analytics Settings</h1>
+        <div id="saveStatus" class="badge" style="display:none"></div>
+      </header>
+
+      <div class="settings-grid">
+        <aside class="sidebar glass">
+          <h2>Navigation</h2>
+          <a class="nav-item" href="/dashboard">Dashboard</a>
+          <a class="nav-item" href="/dashboard">Live Feed</a>
+          <a class="nav-item active" href="/analytics-settings">Analytics Settings</a>
+          <a class="nav-item" href="/broadcast">Mobile Sender</a>
+        </aside>
+
+        <div class="settings-content">
+          <!-- Stream Quality -->
+          <section class="settings-card glass">
+            <h2><span class="icon">▶</span> Stream Quality</h2>
+            <div class="form-group">
+              <label>Target Resolution</label>
+              <select id="resolution" class="form-control">
+                <option value="1080">1920×1080 (FHD)</option>
+                <option value="720" selected>1280×720 (HD)</option>
+                <option value="480">854×480 (SD)</option>
+                <option value="360">640×360 (LD)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Target Bitrate (Mbps)</label>
+              <div class="range-wrap">
+                <input id="bitrate" type="range" min="0.5" max="8" step="0.5" value="2.5" />
+                <span id="bitrateVal" class="range-value">2.5</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Max FPS</label>
+              <div class="range-wrap">
+                <input id="maxFps" type="range" min="10" max="60" step="5" value="30" />
+                <span id="maxFpsVal" class="range-value">30</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Preferred Codec</label>
+              <select id="codec" class="form-control">
+                <option value="vp9">VP9 (efficient)</option>
+                <option value="vp8" selected>VP8 (compatible)</option>
+                <option value="h264">H.264 (hardware)</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- Driver Alert Thresholds -->
+          <section class="settings-card glass">
+            <h2><span class="icon">⚠</span> Driver Alert Thresholds</h2>
+            <div class="form-group">
+              <label>Drowsiness Sensitivity</label>
+              <div class="range-wrap">
+                <input id="drowsiness" type="range" min="1" max="10" step="1" value="6" />
+                <span id="drowsinessVal" class="range-value">6</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Attention % Threshold</label>
+              <div class="range-wrap">
+                <input id="attentionThreshold" type="range" min="50" max="95" step="5" value="80" />
+                <span id="attentionThresholdVal" class="range-value">80%</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Speed Alert Limit (km/h)</label>
+              <div class="range-wrap">
+                <input id="speedLimit" type="range" min="40" max="150" step="5" value="80" />
+                <span id="speedLimitVal" class="range-value">80</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Fatigue Warning Level</label>
+              <select id="fatigueLevel" class="form-control">
+                <option value="low">Low (early warning)</option>
+                <option value="medium" selected>Medium (balanced)</option>
+                <option value="high">High (strict)</option>
+              </select>
+            </div>
+          </section>
+
+          <!-- Notification Settings -->
+          <section class="settings-card glass">
+            <h2><span class="icon">🔔</span> Notifications</h2>
+            <div class="toggle-group">
+              <div>
+                <div class="toggle-label">Sound Alerts</div>
+                <div class="toggle-hint">Play tone on critical alert</div>
+              </div>
+              <label class="switch">
+                <input id="soundAlerts" type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <div>
+                <div class="toggle-label">Visual Alerts</div>
+                <div class="toggle-hint">Flash overlay on dashboard</div>
+              </div>
+              <label class="switch">
+                <input id="visualAlerts" type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <div>
+                <div class="toggle-label">Auto Snapshot on Alert</div>
+                <div class="toggle-hint">Capture frame when alert fires</div>
+              </div>
+              <label class="switch">
+                <input id="autoSnapshot" type="checkbox" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <div>
+                <div class="toggle-label">Push Notifications</div>
+                <div class="toggle-hint">Browser push when tab hidden</div>
+              </div>
+              <label class="switch">
+                <input id="pushNotif" type="checkbox" />
+                <span class="slider"></span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Data & Privacy -->
+          <section class="settings-card glass">
+            <h2><span class="icon">🔒</span> Data & Privacy</h2>
+            <div class="form-group">
+              <label>Metrics Retention (hours)</label>
+              <div class="range-wrap">
+                <input id="retention" type="range" min="1" max="168" step="1" value="24" />
+                <span id="retentionVal" class="range-value">24h</span>
+              </div>
+            </div>
+            <div class="toggle-group">
+              <div>
+                <div class="toggle-label">Auto-clear Logs</div>
+                <div class="toggle-hint">Delete old logs automatically</div>
+              </div>
+              <label class="switch">
+                <input id="autoClear" type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-group">
+              <div>
+                <div class="toggle-label">Export Data</div>
+                <div class="toggle-hint">Allow CSV/JSON export</div>
+              </div>
+              <label class="switch">
+                <input id="allowExport" type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="settings-actions">
+              <button id="exportBtn" type="button" class="btn-neutral">Export Now</button>
+              <button id="clearBtn" type="button" class="btn-danger">Clear All Data</button>
+            </div>
+          </section>
+
+          <!-- Network Tuning -->
+          <section class="settings-card glass">
+            <h2><span class="icon">🌐</span> Network Tuning</h2>
+            <div class="form-group">
+              <label>Latency Warning Threshold (ms)</label>
+              <div class="range-wrap">
+                <input id="latencyWarn" type="range" min="100" max="1000" step="50" value="300" />
+                <span id="latencyWarnVal" class="range-value">300</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>STUN Server</label>
+              <input id="stunServer" type="text" class="form-control" value="stun:stun.l.google.com:19302" readonly />
+            </div>
+            <div class="form-group">
+              <label>Reconnect Delay (ms)</label>
+              <div class="range-wrap">
+                <input id="reconnectDelay" type="range" min="200" max="5000" step="100" value="800" />
+                <span id="reconnectDelayVal" class="range-value">800</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Max Reconnect Attempts</label>
+              <div class="range-wrap">
+                <input id="maxReconnect" type="range" min="3" max="50" step="1" value="Infinity" />
+                <span id="maxReconnectVal" class="range-value">∞</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- Actions -->
+          <section class="settings-card glass" style="grid-column: 1 / -1;">
+            <h2><span class="icon">⚙</span> Actions</h2>
+            <div class="settings-actions">
+              <button id="saveBtn" type="button" class="btn-success">Save & Apply</button>
+              <button id="resetBtn" type="button" class="btn-neutral">Reset to Defaults</button>
+            </div>
+            <div id="previewBox" class="preview-box" style="display:none"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script src="/analytics-settings.js"></script>
+  </body>
+</html>
+

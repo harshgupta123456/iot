@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Broadcast - Mobile Camera</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="app-shell">
+    <div class="container mobile-shell">
+      <div class="mobile-card glass">
+        <header class="mobile-topbar">
+          <h1>okDriver Live Camera</h1>
+          <div id="connectionState" class="badge">
+            <span class="status-dot status-warn pulse"></span> Connecting...
+          </div>
+        </header>
+
+        <div class="video-wrap glass">
+          <video id="localVideo" autoplay muted playsinline></video>
+          <div class="overlay">
+            <span class="chip">Role: Broadcaster</span>
+            <span class="chip" id="viewerCount">Viewers: 0</span>
+          </div>
+        </div>
+
+        <section class="mobile-stats">
+          <div class="metric">
+            <p class="label">Camera</p>
+            <p id="cameraStatus" class="value">Initializing...</p>
+          </div>
+          <div class="metric">
+            <p class="label">Socket</p>
+            <p id="socketStatus" class="value">Disconnected</p>
+          </div>
+          <div class="metric">
+            <p class="label">Latency</p>
+            <p id="latencyStatus" class="value">-- ms</p>
+          </div>
+          <div class="metric">
+            <p class="label">Peer Connections</p>
+            <p id="peerStatus" class="value">0 active</p>
+          </div>
+        </section>
+
+        <div class="mobile-actions">
+          <button id="startBtn" type="button" class="btn-success">Start Streaming</button>
+          <button id="stopBtn" type="button" class="btn-danger">Stop Streaming</button>
+          <button id="switchCamBtn" type="button" class="btn-neutral">Switch Camera</button>
+          <a class="link-btn ghost" href="/dashboard">Open Dashboard</a>
+        </div>
+        <div class="mobile-actions" style="margin-top:8px">
+          <a class="link-btn ghost" href="/analytics-settings">Analytics Settings</a>
+          <a class="link-btn ghost" href="/">Home</a>
+        </div>
+
+        <p class="notice">
+          Phone par camera fail ho to HTTPS URL use karein (ngrok), aur browser settings
+          me Camera permission Allow rakhein.
+        </p>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/broadcast.js"></script>
+  </body>
+</html>

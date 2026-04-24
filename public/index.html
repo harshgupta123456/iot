@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoadEye Live Stream Suite</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <section class="glass hero">
+        <p class="small"><span class="dot"></span>Realtime WebRTC demo</p>
+        <h1>RoadEye Live Camera Monitoring</h1>
+        <p class="small">
+          Mobile camera stream ko low-latency mein dashboard par live dekhein. Server
+          sirf signaling karta hai, video storage nahi hota.
+        </p>
+        <div class="actions">
+          <a class="link-btn" href="/broadcast">Open Camera Broadcaster</a>
+          <a class="link-btn ghost" href="/dashboard">Open Viewer Dashboard</a>
+          <a class="link-btn ghost" href="/analytics-settings">Analytics Settings</a>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <article class="glass panel">
+          <h2>Quick Start</h2>
+          <div class="steps">
+            <div class="step">
+              <p class="kicker">Step 1</p>
+              <p class="title">Open `/broadcast` on phone</p>
+            </div>
+            <div class="step">
+              <p class="kicker">Step 2</p>
+              <p class="title">Allow camera + mic permission</p>
+            </div>
+            <div class="step">
+              <p class="kicker">Step 3</p>
+              <p class="title">Open `/dashboard` on viewer device</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="glass panel">
+          <h2>Important for Phone Camera</h2>
+          <ul class="list">
+            <li>Phone browser pe camera mostly <strong>HTTPS</strong> par hi kaam karta hai.</li>
+            <li>In-app browser ke bajay Chrome/Safari directly use karein.</li>
+            <li>Agar camera blocked ho to browser settings me permission reset karein.</li>
+          </ul>
+          <p class="notice">
+            LAN `http://192.168.x.x` URL par kuch devices camera block karte hain. Reliable
+            demo ke liye HTTPS tunnel (ngrok) use karein.
+          </p>
+        </article>
+      </section>
+    </div>
+  </body>
+</html>

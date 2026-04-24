@@ -1,0 +1,17 @@
+{
+  "name": "iot",
+  "version": "1.0.0",
+  "description": "Low-latency live mobile camera streaming dashboard using WebRTC + Socket.IO.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Live Feed</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="app-shell">
+    <div class="dashboard-shell">
+      <header class="dash-topbar glass">
+        <h1>okDriver AI Dashboard</h1>
+        <div id="streamState" class="badge live-badge">
+          <span class="status-dot status-warn pulse"></span> Waiting for stream...
+        </div>
+      </header>
+
+      <main class="dashboard-grid">
+        <aside class="sidebar glass">
+          <h2>Navigation</h2>
+          <a class="nav-item active" href="/dashboard">Dashboard</a>
+          <a class="nav-item" href="/dashboard">Live Feed</a>
+          <a class="nav-item" href="/analytics-settings">Analytics Settings</a>
+          <a class="nav-item" href="/broadcast">Mobile Sender</a>
+        </aside>
+
+        <section class="video-panel glass">
+          <div class="video-panel-head">
+            <span class="chip live-chip">LIVE</span>
+            <span id="timeChip" class="chip">--:--:--</span>
+            <span id="networkChip" class="chip">Network: --</span>
+            <span id="latencyChip" class="chip">Latency: --</span>
+          </div>
+
+          <div class="video-wrap glass">
+            <video id="remoteVideo" autoplay playsinline controls></video>
+            <div class="overlay">
+              <span class="chip">Role: Viewer Dashboard</span>
+              <span class="chip" id="fpsChip">FPS: --</span>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="reconnectBtn" type="button">Reconnect</button>
+            <button id="snapshotBtn" type="button" class="btn-neutral">Snapshot</button>
+            <button id="muteBtn" type="button" class="btn-neutral">Mute</button>
+            <a class="link-btn ghost" href="/broadcast">Open Broadcaster</a>
+          </div>
+
+          <div class="status-strip glass">
+            <span id="signalStatus">Signal: Disconnected</span>
+            <span id="webrtcStatus">WebRTC: Idle</span>
+            <span id="latencyValue">Latency: -- ms</span>
+            <span id="bitrateValue">Bitrate: -- Mbps</span>
+            <span id="fpsValue">FPS: --</span>
+          </div>
+        </section>
+
+        <aside class="insights glass">
+          <section>
+            <h2>Driver Alerts</h2>
+            <ul id="alertsList" class="list">
+              <li>Drowsiness Detected</li>
+              <li>Phone Usage</li>
+              <li>Hard Braking</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Driver Stats</h2>
+            <div class="metric">
+              <p class="label">Speed</p>
+              <p id="speedValue" class="value">45 km/h</p>
+            </div>
+            <div class="metric">
+              <p class="label">Attention</p>
+              <p id="attentionValue" class="value">82%</p>
+            </div>
+            <div class="metric">
+              <p class="label">Fatigue</p>
+              <p id="fatigueValue" class="value">Low</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Latency Analysis</h2>
+            <div class="metric">
+              <p class="label">Current</p>
+              <p id="currentLatency" class="value">-- ms</p>
+            </div>
+            <div class="metric">
+              <p class="label">Average (50)</p>
+              <p id="avgLatency" class="value">-- ms</p>
+            </div>
+            <div class="metric">
+              <p class="label">Min/Max</p>
+              <p id="minMaxLatency" class="value">--/-- ms</p>
+            </div>
+            <div class="metric">
+              <p class="label">Round-trip</p>
+              <p id="rttLatency" class="value">-- ms</p>
+            </div>
+            <div class="metric">
+              <p class="label">Quality</p>
+              <p id="latencyQuality" class="value">--</p>
+            </div>
+          </section>
+
+          <section>
+            <h2>Connection Log</h2>
+            <div id="logPanel" class="log-panel"></div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/dashboard.js"></script>
+  </body>
+</html>
