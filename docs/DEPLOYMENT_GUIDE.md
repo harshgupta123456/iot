@@ -73,15 +73,13 @@ git push -u origin main
    - **Plan**: Free
 5. Click **Create Web Service**.
 
-Render will assign you a URL like:
-```
-https://iot-1-d4c1.onrender.com
+
 ```
 
 ### Step 3: Test Live Demo
 
-- **Broadcaster (Phone)**: `https://iot-1-d4c1.onrender.com/broadcast`
-- **Dashboard (Viewer)**: `https://iot-1-d4c1.onrender.com/dashboard`
+- **Broadcaster (Phone)**: `https://okdriver-livestream.onrender.com/broadcast`
+- **Dashboard (Viewer)**: `https://okdriver-livestream.onrender.com/dashboard`
 
 Both devices must use the **same URL** for Socket.IO signaling to work.
 
@@ -127,7 +125,7 @@ Render automatically injects `PORT` — no `.env` needed there.
 
 After deployment, your submission email should include:
 
-- **Live Demo**: `https://iot-1-d4c1.onrender.com/dashboard`
-- **Broadcaster**: `https://iot-1-d4c1.onrender.com/broadcast`
+- **Live Demo**: `https://<your-app>.onrender.com/dashboard`
+- **Broadcaster**: `https://<your-app>.onrender.com/broadcast`
 - **Architecture Diagram**: Open `docs/architecture.html` in browser, screenshot or attach as PDF
 
