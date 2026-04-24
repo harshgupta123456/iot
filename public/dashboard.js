@@ -16,10 +16,34 @@ const avgLatency = document.getElementById("avgLatency");
 const minMaxLatency = document.getElementById("minMaxLatency");
 const rttLatency = document.getElementById("rttLatency");
 const latencyQuality = document.getElementById("latencyQuality");
+const logPanel = document.getElementById("logPanel");
 let latencyHistory = [];
 let rttHistory = [];
 let latencyStats = { min: Infinity, max: 0, avg: 0, count: 0 };
 let rttStats = { min: Infinity, max: 0, avg: 0, count: 0 };
+
+function loadViewerSettings() {
+  try {
+    const raw = localStorage.getItem("okdriver_settings");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
+const settings = loadViewerSettings();
+const socketConfig = {
+  reconnection: true,
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 800,
+  reconnectionDelayMax: 4000,
+};
+if (settings) {
+  if (settings.reconnectDelay) socketConfig.reconnectionDelay = parseInt(settings.reconnectDelay, 10);
+  if (settings.maxReconnect && settings.maxReconnect !== "Infinity") {
+    socketConfig.reconnectionAttempts = parseInt(settings.maxReconnect, 10);
+  }
+}
 
 function updateLatencyStats(latency, rtt = null) {
   // Update latency stats
@@ -61,13 +85,14 @@ function updateLatencyStats(latency, rtt = null) {
   rttLatency.textContent = rtt !== null ? `${rtt} ms` : '-- ms';
 
   // Update latency quality indicator
+  const warnThreshold = settings?.latencyWarn ? parseInt(settings.latencyWarn, 10) : 300;
   if (latency < 150) {
     latencyQuality.textContent = "Excellent";
     latencyQuality.style.color = "#10b981"; // green
-  } else if (latency < 300) {
+  } else if (latency < warnThreshold) {
     latencyQuality.textContent = "Good";
     latencyQuality.style.color = "#3b82f6"; // blue
-  } else if (latency < 500) {
+  } else if (latency < warnThreshold * 1.6) {
     latencyQuality.textContent = "Moderate";
     latencyQuality.style.color = "#f59e0b"; // yellow
   } else {
@@ -78,21 +103,16 @@ function updateLatencyStats(latency, rtt = null) {
   // Update network quality based on latency
   if (latency < 150) {
     networkChip.textContent = "Network: Excellent";
-  } else if (latency < 300) {
+  } else if (latency < warnThreshold) {
     networkChip.textContent = "Network: Good";
-  } else if (latency < 500) {
+  } else if (latency < warnThreshold * 1.6) {
     networkChip.textContent = "Network: Moderate";
   } else {
     networkChip.textContent = "Network: Poor";
   }
 }
 
-const socket = io({
-  reconnection: true,
-  reconnectionAttempts: Infinity,
-  reconnectionDelay: 800,
-  reconnectionDelayMax: 4000,
-});
+const socket = io(socketConfig);
 
 const rtcConfig = {
   iceServers: [{ urls: "stun:stun.l.google.com:19302" }],

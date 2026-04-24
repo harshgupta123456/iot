@@ -60,6 +60,15 @@ function updateViewerMetrics() {
   latencyStatus.textContent = count > 0 ? "~250 ms" : "-- ms";
 }
 
+function loadBroadcastSettings() {
+  try {
+    const raw = localStorage.getItem("okdriver_settings");
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    return null;
+  }
+}
+
 async function startMedia() {
   try {
     if (!window.isSecureContext) {
@@ -67,9 +76,24 @@ async function startMedia() {
     }
 
     cameraStatus.textContent = "Requesting permission...";
+
+    const settings = loadBroadcastSettings();
+    let width = 1280;
+    let height = 720;
+    let maxFps = 30;
+
+    if (settings) {
+      const res = settings.resolution || "720";
+      if (res === "1080") { width = 1920; height = 1080; }
+      else if (res === "720") { width = 1280; height = 720; }
+      else if (res === "480") { width = 854; height = 480; }
+      else if (res === "360") { width = 640; height = 360; }
+      maxFps = parseInt(settings.maxFps || "30", 10);
+    }
+
     localStream = await navigator.mediaDevices.getUserMedia({
       audio: true,
-      video: { facingMode, width: { ideal: 1280 }, height: { ideal: 720 }, frameRate: { ideal: 30, max: 30 } },
+      video: { facingMode, width: { ideal: width }, height: { ideal: height }, frameRate: { ideal: maxFps, max: maxFps } },
     });
     localVideo.srcObject = localStream;
     cameraStatus.textContent = "Live";
@@ -174,7 +198,10 @@ async function createPeer(viewerId) {
 
   peer.onconnectionstatechange = () => {
     if (["disconnected", "failed", "closed"].includes(peer.connectionState)) {
-      clearInterval(timer);
+      if (peer.metricsInterval) {
+        clearInterval(peer.metricsInterval);
+        peer.metricsInterval = null;
+      }
       closePeer(viewerId);
     }
   };

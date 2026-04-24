@@ -36,10 +36,14 @@ Export-ready diagram file for submission: `architecture-diagram.svg`
 
 ## 🌐 Live Demo Link
 
-For interview submission, deploy to Render and share:
 
-- `https://<your-render-app>.onrender.com/broadcast`
-- `https://<your-render-app>.onrender.com/dashboard`
+
+- `https://iot-1-d4c1.onrender.com/broadcast`
+- `https://iot-1-d4c1.onrender.com/dashboard`
+
+See [`docs/DEPLOYMENT_GUIDE.md`](docs/DEPLOYMENT_GUIDE.md) for step-by-step Render and ngrok instructions.
+
+See [`SUBMISSION.md`](SUBMISSION.md) for the consolidated submission template.
 
 ---
 
